@@ -37,6 +37,8 @@ def extract_companies(browser)
     companies << company
   end
 
+  # Need to add pagination. As of now only 1st page is processed
+
   byebug
 
   return companies

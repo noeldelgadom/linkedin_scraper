@@ -4,16 +4,18 @@ require 'byebug'
 require 'webdrivers'
 require 'watir'
 
-def sign_in
+def scraper
   url = "https://www.linkedin.com"
   browser = Watir::Browser.new
   browser.goto(url)
 
+  puts '---'
   puts 'Login to LinkedIn'
   puts 'Email: '
   email = gets.chomp
   puts 'Password: '
   password = STDIN.noecho(&:gets).chomp
+
   browser.text_field(:class, "login-email").set(email)
   browser.text_field(:class, "login-password").set(password)
   browser.button(:id, "login-submit").click
@@ -21,21 +23,4 @@ def sign_in
   byebug
 end
 
-def scraper
-  # url           = "https://www.linkedin.com/jobs/search?keywords=&location=Mexico%20City%20Area%2C%20Mexico&locationId=mx:5921"
-  url           = "https://www.linkedin.com"
-
-  browser = Watir::Browser.new
-  browser.goto(url)
-  search_results = browser.element(css: "ul.search-results")
-  search_results.children.each do |job_listing|
-    puts job_listing
-    company = {
-      name: job_listing.children.last.children[1].children.first.children.first.inner_text,
-      link: job_listing.children.last.children[1].children.first.children.first.href
-    }
-    byebug
-  end
-end
-
-sign_in
+scraper

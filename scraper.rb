@@ -8,12 +8,19 @@ def sign_in
   url = "https://www.linkedin.com"
   browser = Watir::Browser.new
   browser.goto(url)
-  browser.text_field(:class, "login-email").set("John Doe")
-  browser.text_field(:class, "login-password").set("p@ssw0rd")
+
+  puts 'Login to LinkedIn'
+  puts 'Email: '
+  email = gets.chomp
+  puts 'Password: '
+  password = gets.chomp
+  browser.text_field(:class, "login-email").set(email)
+  browser.text_field(:class, "login-password").set(password)
   browser.button(:id, "login-submit").click
 
   byebug
 end
+
 def scraper
   # url           = "https://www.linkedin.com/jobs/search?keywords=&location=Mexico%20City%20Area%2C%20Mexico&locationId=mx:5921"
   url           = "https://www.linkedin.com"
@@ -31,6 +38,4 @@ def scraper
   end
 end
 
-
 sign_in
-# scraper

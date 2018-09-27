@@ -22,6 +22,9 @@ def scraper
   browser.text_field(:class, "login-password").set(password)
   browser.button(:id, "login-submit").click
 
+  jobs_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
+  browser.goto(jobs_page)
+
   byebug
 end
 

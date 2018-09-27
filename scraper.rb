@@ -12,9 +12,11 @@ def scraper
   puts '---'
   puts 'Login to LinkedIn'
   puts 'Email: '
-  email = gets.chomp
+  email = 'noeldelgado89@hotmail.com'
+  # email = gets.chomp
   puts 'Password: '
-  password = STDIN.noecho(&:gets).chomp
+  password = 'notQB12'
+  # password = STDIN.noecho(&:gets).chomp
 
   browser.text_field(:class, "login-email").set(email)
   browser.text_field(:class, "login-password").set(password)

@@ -25,16 +25,17 @@ def login(browser)
 end
 
 def extract_companies(browser)
-  companies = []
-
-  company = {}
-  company[:name] = "sample company"
-  company[:link] = "sample link"
-  companies << company
-
   job_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
-
   browser.goto(job_page)
+
+  companies = []
+  browser.ul(class: 'jobs-search-results__list').children.each do |li|
+    li.click
+    company = {}
+    company[:name] = browser.a(class: 'jobs-details-top-card__company-url').inner_text
+    company[:link] = browser.a(class: 'jobs-details-top-card__company-url').href
+    companies << company
+  end
 
   byebug
 

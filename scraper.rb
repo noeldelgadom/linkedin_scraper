@@ -5,9 +5,8 @@ require 'webdrivers'
 require 'watir'
 
 
-def login
+def login(browser)
   url = "https://www.linkedin.com"
-  browser = Watir::Browser.new
   browser.goto(url)
 
   puts '---'
@@ -26,12 +25,11 @@ def login
 end
 
 def scraper
-  browser = login()
-
-  jobs_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
-  browser.goto(jobs_page)
-
+  browser = Watir::Browser.new
+  
+  browser = login(browser)
   byebug
+
 end
 
 scraper

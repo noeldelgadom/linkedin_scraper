@@ -13,7 +13,7 @@ def sign_in
   puts 'Email: '
   email = gets.chomp
   puts 'Password: '
-  password = gets.chomp
+  password = STDIN.noecho(&:gets).chomp
   browser.text_field(:class, "login-email").set(email)
   browser.text_field(:class, "login-password").set(password)
   browser.button(:id, "login-submit").click

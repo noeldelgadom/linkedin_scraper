@@ -11,19 +11,17 @@ require_relative 'login.rb'
 require_relative 'extract_jobs.rb'
 require_relative 'authorize.rb'
 require_relative 'easy_load_jobs.rb'
+require_relative 'get_company_industries_and_emails.rb'
 
 def scraper
   browser = Watir::Browser.new
-  
   browser = login(browser)
-
-  # # jobs = extract_jobs(browser)
-
-  # jobs_with_industries_and_emails = get_company_industries_and_emails(jobs, browser)
-  jobs_with_industries_and_emails = easy_load_jobs
+  jobs    = extract_jobs(browser)
+  jobs    = get_company_industries_and_emails(jobs, browser)
+  # jobs = easy_load_jobs
 
   google_array = []
-  jobs_with_industries_and_emails.each {|job| google_array << job.values }
+  jobs.each {|job| google_array << job.values }
 
   # Google Spreadsheet part
   service = Google::Apis::SheetsV4::SheetsService.new
@@ -32,10 +30,6 @@ def scraper
 
   spreadsheet_id = '1R3sEe4NENwr9Su7hda7be9BZCGcCDTZ03lurXp0E2hk'
   range = 'Sheet1!A2:E'
-  # response = service.get_spreadsheet_values(spreadsheet_id, range)
-  # puts 'Name, Major:'
-  # puts 'No data found.' if response.values.empty?
-
   value_range = Google::Apis::SheetsV4::ValueRange.new(values: google_array)
   result = service.append_spreadsheet_value(spreadsheet_id,
                                           range,

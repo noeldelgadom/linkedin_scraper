@@ -59,11 +59,15 @@ def extract_jobs(browser)
   return jobs
 end
 
-def get_company_industries(jobs, browser)
+def get_company_industries_and_emails(jobs, browser)
 
   jobs.each do |job|
     browser.goto(job[:company_url])
     job[:company_industry] = browser.span(class: 'company-industries').inner_text
+
+    browser.goto(job[:job_poster_url] + 'detail/contact-info/')
+
+    byebug
   end
 
   return jobs
@@ -129,7 +133,7 @@ def scraper
     }
   ]
 
-  jobs_with_industries = get_company_industries(jobs, browser)
+  jobs_with_industries_and_emails = get_company_industries_and_emails(jobs, browser)
 
   byebug
 end

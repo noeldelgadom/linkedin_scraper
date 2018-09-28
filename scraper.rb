@@ -11,13 +11,15 @@ require_relative 'login.rb'
 require_relative 'extract_jobs.rb'
 require_relative 'authorize.rb'
 require_relative 'easy_load_jobs.rb'
-require_relative 'get_company_industries_and_emails.rb'
 
 def scraper
-  browser = Watir::Browser.new
-  browser = login(browser)
-  jobs    = extract_jobs(browser)
-  jobs    = get_company_industries_and_emails(jobs, browser)
+  #Open Two Browsers. One scans the jobs, the other the companies and contacts
+  browser_one = Watir::Browser.new
+  browser_two = Watir::Browser.new
+  browser_one = login(browser_one)
+  browser_two = login(browser_two)
+
+  jobs    = extract_jobs(browser_one, browser_two)
   # jobs = easy_load_jobs
 
   google_array = []

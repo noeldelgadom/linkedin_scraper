@@ -1,12 +1,13 @@
 def login(browser_one, browser_two)
   puts '---'
-  puts 'Login to LinkedIn'
-  puts 'Email: '
-  email = 'noeldelgado89@hotmail.com'
+  puts 'Logging in to LinkedIn'
+  # puts 'Email: '
   # email = gets.chomp
-  puts 'Password: '
-  password = 'notQB12'
+  # puts 'Password: '
   # password = STDIN.noecho(&:gets).chomp
+
+  email     = 'noeldelgado89@hotmail.com'
+  password  = 'notQB12'
 
   url = "https://www.linkedin.com"
   [browser_one, browser_two].each_with_index do |browser, i|

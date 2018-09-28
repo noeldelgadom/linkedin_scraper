@@ -26,7 +26,9 @@ def scraper
 
   extract_jobs(browser_one, browser_two, service)
   
-  puts 'Thats All Folks'
+  puts '---'
+  puts 'Thats All Folks!'
+  puts '---'
   
 end
 

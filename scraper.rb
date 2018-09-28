@@ -20,7 +20,6 @@ def scraper
   # # jobs = extract_jobs(browser)
 
   # jobs_with_industries_and_emails = get_company_industries_and_emails(jobs, browser)
-
   jobs_with_industries_and_emails = easy_load_jobs
 
   google_array = []

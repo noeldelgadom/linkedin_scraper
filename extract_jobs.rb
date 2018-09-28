@@ -1,4 +1,4 @@
-def extract_jobs(browser_one, browser_two)
+def extract_jobs(browser_one, browser_two, service)
   # Use Browser One to inspect jobs page
   job_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
   browser_one.goto(job_page)
@@ -6,9 +6,10 @@ def extract_jobs(browser_one, browser_two)
   jobs = []
   browser_one.ul(class: 'jobs-search-results__list').children.each do |li|
     li.click
-    sleep(1)      # The click is to fast. The sleep is there to let the javascript load the data.
+    sleep(1)
 
-    if browser_one.div(class: 'jobs-poster').exists?  # Not all job posts have job-posters, hence this if statement
+    # Not all job posts have job-posters, hence this if statement
+    if browser_one.div(class: 'jobs-poster').exists?
       puts 'poster exists'
       job = {}
 
@@ -28,24 +29,22 @@ def extract_jobs(browser_one, browser_two)
       browser_two.goto(job[:company_url])
       job[:company_industry] = browser_two.span(class: 'company-industries').inner_text
 
-      # Use Browser Two to extract Contact Email
+      # Use Browser Two to extract Contact Email (if it exists)
       browser_two.goto(job[:contact_url] + 'detail/contact-info/')
       sleep(1)
-      if browser_two.section(class: 'ci-email').exists?
-        puts 'email exists'
-        job[:contact_email] = browser_two.section(class: 'ci-email').a.inner_text
-      else
-        puts 'email doesnt exist'
-        job[:contact_email] = ''
-      end
-      
-      jobs << job
+      job[:contact_email] = browser_two.section(class: 'ci-email').exists?
+                              browser_two.section(class: 'ci-email').a.inner_text : ''
+
+      # Paste to Google Sheet
+      value_range = Google::Apis::SheetsV4::ValueRange.new(values: [job.values])
+      result = service.append_spreadsheet_value(SPREADSHEET_ID,
+                                                RANGE,
+                                                value_range,
+                                                value_input_option: "USER_ENTERED")
     else
       puts 'poster doesnt exist'
     end
   end
 
-  # Need to add pagination. As of now only 1st page is processed
-  
-  return jobs
+  # Need to add pagination. As of now, only 1st page is processed.
 end

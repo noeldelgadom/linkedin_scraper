@@ -13,28 +13,19 @@ require_relative 'authorize.rb'
 require_relative 'easy_load_jobs.rb'
 
 def scraper
-  # Open Two Browsers. One scans the jobs, the other the companies and contacts
-  # browser_one = Watir::Browser.new
-  # browser_two = Watir::Browser.new
-  # browser_one = login(browser_one)
-  # browser_two = login(browser_two)
-
-  # jobs = extract_jobs(browser_one, browser_two)       # Extracts real data from LinkedIn
-  jobs = easy_load_jobs                             # Extracts fake data from easy_load_jobs.rb
-
-  google_array = []
-  jobs.each {|job| google_array << job.values }
-
   # Initiate Google Spreadsheets
   service = Google::Apis::SheetsV4::SheetsService.new
   service.client_options.application_name = APPLICATION_NAME
   service.authorization = authorize
 
-  value_range = Google::Apis::SheetsV4::ValueRange.new(values: google_array)
-  result = service.append_spreadsheet_value(SPREADSHEET_ID,
-                                            RANGE,
-                                            value_range,
-                                            value_input_option: "USER_ENTERED")
+  # Open Two Browsers. One scans the jobs, the other the companies and contacts
+  browser_one = Watir::Browser.new
+  browser_two = Watir::Browser.new
+  browser_one = login(browser_one)
+  browser_two = login(browser_two)
+
+  extract_jobs(browser_one, browser_two, service)       # Extracts real data from LinkedIn
+  # jobs = easy_load_jobs                             # Extracts fake data from easy_load_jobs.rb
   
   byebug
   

@@ -59,14 +59,20 @@ def extract_jobs(browser)
   return jobs
 end
 
-def get_company_industries(jobs)
-  byebug
+def get_company_industries(jobs, browser)
+
+  jobs.each do |job|
+    browser.goto(job[:company_url])
+    job[:company_industry] = browser.span(class: 'company-industries').inner_text
+  end
+
+  return jobs
 end
 
 def scraper
-  # browser = Watir::Browser.new
+  browser = Watir::Browser.new
   
-  # browser = login(browser)
+  browser = login(browser)
 
   # jobs = extract_jobs(browser)
 
@@ -123,7 +129,9 @@ def scraper
     }
   ]
 
-  jobs_with_industries = get_company_industries(jobs)
+  jobs_with_industries = get_company_industries(jobs, browser)
+
+  byebug
 end
 
 scraper

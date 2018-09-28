@@ -1,8 +1,8 @@
 def extract_jobs(browser_one, browser_two, service)
-  # Use Browser One to inspect jobs page
   job_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
   browser_one.goto(job_page)
 
+  # Loop through each Job Post with Browser One
   browser_one.ul(class: 'jobs-search-results__list').children.each do |li|
     li.click
     sleep(1)
@@ -12,17 +12,15 @@ def extract_jobs(browser_one, browser_two, service)
       puts 'poster exists'
       job = {}
 
+      # Use Browswer One to extract job, company and contact
       job[:job_name]          = browser_one.a(class: 'jobs-details-top-card__job-title-link').inner_text
       job[:job_url]           = browser_one.a(class: 'jobs-details-top-card__job-title-link').href
-
       job[:company_name]      = browser_one.a(class: 'jobs-details-top-card__company-url').inner_text
       job[:company_url]       = browser_one.a(class: 'jobs-details-top-card__company-url').href
-
       job[:contact_name]      = browser_one.p(class: 'jobs-poster__name').inner_text
       job[:contact_url]       = browser_one.div(class: 'jobs-poster__wrapper').exists? ? # The classes on this div change depending on whether it is the first post or not.
                                   browser_one.div(class: 'jobs-poster__wrapper').a.href :
                                   browser_one.div(class: 'jobs-poster--is-expanded').a.href
-
 
       # Use Browser Two to extract Company Industry
       browser_two.goto(job[:company_url])

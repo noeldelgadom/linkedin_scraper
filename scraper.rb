@@ -24,10 +24,9 @@ def scraper
   browser_two = Watir::Browser.new
   login(browser_one, browser_two)
 
-  extract_jobs(browser_one, browser_two, service)       # Extracts real data from LinkedIn
-  # jobs = easy_load_jobs                             # Extracts fake data from easy_load_jobs.rb
+  extract_jobs(browser_one, browser_two, service)
   
-  byebug
+  puts 'Thats All Folks'
   
 end
 

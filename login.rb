@@ -1,7 +1,4 @@
-def login(browser)
-  url = "https://www.linkedin.com"
-  browser.goto(url)
-
+def login(browser_one, browser_two)
   puts '---'
   puts 'Login to LinkedIn'
   puts 'Email: '
@@ -11,8 +8,11 @@ def login(browser)
   password = 'notQB12'
   # password = STDIN.noecho(&:gets).chomp
 
-  browser.text_field(:class, "login-email").set(email)
-  browser.text_field(:class, "login-password").set(password)
-  browser.button(:id, "login-submit").click
-  return browser
+  url = "https://www.linkedin.com"
+  [browser_one, browser_two].each do |browser|
+    browser.goto(url)
+    browser.text_field(:class, "login-email").set(email)
+    browser.text_field(:class, "login-password").set(password)
+    browser.button(:id, "login-submit").click
+  end
 end

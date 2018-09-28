@@ -21,8 +21,7 @@ def scraper
   # Open Two Browsers. One scans the jobs, the other the companies and contacts
   browser_one = Watir::Browser.new
   browser_two = Watir::Browser.new
-  browser_one = login(browser_one)
-  browser_two = login(browser_two)
+  login(browser_one, browser_two)
 
   extract_jobs(browser_one, browser_two, service)       # Extracts real data from LinkedIn
   # jobs = easy_load_jobs                             # Extracts fake data from easy_load_jobs.rb

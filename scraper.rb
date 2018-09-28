@@ -43,8 +43,8 @@ def extract_jobs(browser)
       job[:company_name]      = browser.a(class: 'jobs-details-top-card__company-url').inner_text
       job[:company_url]       = browser.a(class: 'jobs-details-top-card__company-url').href
 
-      job[:job_poster_name]   = browser.p(class: 'jobs-poster__name').inner_text
-      job[:job_poster_url]    = browser.div(class: 'jobs-poster__wrapper').exists? ? # The classes on this div change depending on whether it is the first post or not.
+      job[:contact_name]      = browser.p(class: 'jobs-poster__name').inner_text
+      job[:contact_url]       = browser.div(class: 'jobs-poster__wrapper').exists? ? # The classes on this div change depending on whether it is the first post or not.
                                   browser.div(class: 'jobs-poster__wrapper').a.href :
                                   browser.div(class: 'jobs-poster--is-expanded').a.href
       
@@ -65,7 +65,10 @@ def get_company_industries_and_emails(jobs, browser)
     browser.goto(job[:company_url])
     job[:company_industry] = browser.span(class: 'company-industries').inner_text
 
-    browser.goto(job[:job_poster_url] + 'detail/contact-info/')
+    browser.goto(job[:contact_url] + 'detail/contact-info/')
+    sleep(1) # Need to wait for the popup to open.
+    job[:contact_email] = browser.section(class: 'ci-email').exists? ?
+                            browser.section(class: 'ci-email').a.inner_text : ''
 
     byebug
   end
@@ -86,50 +89,50 @@ def scraper
       :job_url => "https://www.linkedin.com/jobs/view/867430578/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "Adare International",
       :company_url => "https://www.linkedin.com/company/896814/life/",
-      :job_poster_name => "Chanelle (Nelly) Kirkum",
-      :job_poster_url => "https://www.linkedin.com/in/chanelle-nelly-kirkum-8284b6119/"
+      :contact_name => "Noel Delgado",
+      :contact_url => "https://www.linkedin.com/in/noeldelgadom/"
     }, {
       :job_name => "Ejecutivo comercial (consultoria, outsourcing)",
       :job_url => "https://www.linkedin.com/jobs/view/868840306/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "Experis",
       :company_url => "https://www.linkedin.com/company/2203697/life/",
-      :job_poster_name => "Néstor González",
-      :job_poster_url => "https://www.linkedin.com/in/n%C3%A9stor-gonz%C3%A1lez-bb209696/"
+      :contact_name => "Néstor González",
+      :contact_url => "https://www.linkedin.com/in/n%C3%A9stor-gonz%C3%A1lez-bb209696/"
     }, {
       :job_name => "Soporte Tecnico Jr.",
       :job_url => "https://www.linkedin.com/jobs/view/873786961/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "Experis/Manpower Group",
       :company_url => "https://www.linkedin.com/company/1233852/life/",
-      :job_poster_name => "Michelle Diaz Castañeda",
-      :job_poster_url => "https://www.linkedin.com/in/michelle-diaz-casta%C3%B1eda-6aa8b8b0/"
+      :contact_name => "Michelle Diaz Castañeda",
+      :contact_url => "https://www.linkedin.com/in/michelle-diaz-casta%C3%B1eda-6aa8b8b0/"
     }, {
       :job_name => "Fall Protection Sr Account Manager",
       :job_url => "https://www.linkedin.com/jobs/view/885602251/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "Honeywell",
       :company_url => "https://www.linkedin.com/company/1344/life/",
-      :job_poster_name => "Sergio Chavolla",
-      :job_poster_url => "https://www.linkedin.com/in/sergio-chavolla-1770a44/"
+      :contact_name => "Sergio Chavolla",
+      :contact_url => "https://www.linkedin.com/in/sergio-chavolla-1770a44/"
     }, {
       :job_name => "Legal Manager",
       :job_url => "https://www.linkedin.com/jobs/view/877420060/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "Eutelsat Americas",
       :company_url => "https://www.linkedin.com/company/29356/life/",
-      :job_poster_name => "Fabiola Dávila Enriquez",
-      :job_poster_url => "https://www.linkedin.com/in/fabiola-d%C3%A1vila-enriquez-499591117/"
+      :contact_name => "Fabiola Dávila Enriquez",
+      :contact_url => "https://www.linkedin.com/in/fabiola-d%C3%A1vila-enriquez-499591117/"
     }, {
       :job_name => "Beauty Director, Consumer Insights",
       :job_url => "https://www.linkedin.com/jobs/view/883083442/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "The NPD Group",
       :company_url => "https://www.linkedin.com/company/166393/life/",
-      :job_poster_name => "Lizette Medina, RACR Certified",
-      :job_poster_url => "https://www.linkedin.com/in/lizette-medina-racr-certified-677b9741/"
+      :contact_name => "Lizette Medina, RACR Certified",
+      :contact_url => "https://www.linkedin.com/in/lizette-medina-racr-certified-677b9741/"
     }, {
       :job_name => "Solution Account Manager",
       :job_url => "https://www.linkedin.com/jobs/view/856598206/?refId=0b7e611c-6007-4720-9f3c-581c766f8609&trk=flagship3_search_srp_jobs",
       :company_name => "Grupo Novandi",
       :company_url => "https://www.linkedin.com/company/3751050/life/",
-      :job_poster_name => "Reclutador Novandi",
-      :job_poster_url=>"https://www.linkedin.com/in/reclutadornovandi/"
+      :contact_name => "Reclutador Novandi",
+      :contact_url=>"https://www.linkedin.com/in/reclutadornovandi/"
     }
   ]
 

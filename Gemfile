@@ -1,6 +1,5 @@
 source 'https://rubygems.org' 
-gem 'httparty' 
-gem 'nokogiri' 
 gem 'byebug'
 gem 'watir' 
 gem 'webdrivers'
+gem 'google-api-client', '~> 0.11'

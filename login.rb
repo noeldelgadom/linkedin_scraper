@@ -11,8 +11,8 @@ def login(browser_one, browser_two)
   url = "https://www.linkedin.com"
   [browser_one, browser_two].each do |browser|
     browser.goto(url)
-    browser.text_field(:class, "login-email").set(email)
-    browser.text_field(:class, "login-password").set(password)
-    browser.button(:id, "login-submit").click
+    browser.text_field(class: "login-email").set(email)
+    browser.text_field(class: "login-password").set(password)
+    browser.button(id: "login-submit").click
   end
 end

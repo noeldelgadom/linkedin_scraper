@@ -24,6 +24,8 @@ def extract_jobs(browser_one, browser_two, service)
 
       # Use Browser Two to extract Company Industry
       browser_two.goto(job[:company_url])
+      sleep(0.25)
+      job[:company_url]       = browser_two.url   # This line is needed for companies that have non-ID URLs
       job[:company_industry] = browser_two.span(class: 'company-industries').inner_text
 
       # Use Browser Two to extract Contact Email (if it exists)
@@ -33,10 +35,7 @@ def extract_jobs(browser_one, browser_two, service)
                               browser_two.section(class: 'ci-email').a.inner_text : ''
 
       # Paste to Google Sheet
-      service.append_spreadsheet_value( SPREADSHEET_ID,
-                                        RANGE,
-                                        Google::Apis::SheetsV4::ValueRange.new(values: [job.values]),
-                                        value_input_option: "USER_ENTERED")
+      append_to_google_sheet(job, service)
     else
       puts 'poster doesnt exist'
     end

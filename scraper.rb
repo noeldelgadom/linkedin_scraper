@@ -11,6 +11,7 @@ require_relative 'login.rb'
 require_relative 'extract_jobs.rb'
 require_relative 'authorize.rb'
 require_relative 'easy_load_jobs.rb'
+require_relative 'append_to_google_sheet.rb'
 
 def scraper
   # Initiate Google Spreadsheets

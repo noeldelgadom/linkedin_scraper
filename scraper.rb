@@ -181,8 +181,6 @@ def scraper
       :contact_email => ""
     }]
 
-  byebug
-
   # Google Spreadsheet part
   service = Google::Apis::SheetsV4::SheetsService.new
   service.client_options.application_name = APPLICATION_NAME

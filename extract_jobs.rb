@@ -1,4 +1,5 @@
 def extract_jobs(browser_one, browser_two)
+  # Use Browser One to inspect jobs page
   job_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
   browser_one.goto(job_page)
 

@@ -55,10 +55,12 @@ def extract_jobs(browser)
   end
 
   # Need to add pagination. As of now only 1st page is processed
-
-  byebug
   
   return jobs
+end
+
+def get_company_industries(jobs)
+  byebug
 end
 
 def scraper
@@ -120,6 +122,8 @@ def scraper
       :job_poster_url=>"https://www.linkedin.com/in/reclutadornovandi/"
     }
   ]
+
+  jobs_with_industries = get_company_industries(jobs)
 end
 
 scraper

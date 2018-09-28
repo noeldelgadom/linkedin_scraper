@@ -3,7 +3,6 @@ def extract_jobs(browser_one, browser_two, service)
   job_page = 'https://www.linkedin.com/jobs/search/?location=Mexico%20City%20Area%2C%20Mexico&locationId=mx%3A5921'
   browser_one.goto(job_page)
 
-  jobs = []
   browser_one.ul(class: 'jobs-search-results__list').children.each do |li|
     li.click
     sleep(1)
@@ -32,15 +31,14 @@ def extract_jobs(browser_one, browser_two, service)
       # Use Browser Two to extract Contact Email (if it exists)
       browser_two.goto(job[:contact_url] + 'detail/contact-info/')
       sleep(1)
-      job[:contact_email] = browser_two.section(class: 'ci-email').exists?
+      job[:contact_email] = browser_two.section(class: 'ci-email').exists? ?
                               browser_two.section(class: 'ci-email').a.inner_text : ''
 
       # Paste to Google Sheet
-      value_range = Google::Apis::SheetsV4::ValueRange.new(values: [job.values])
-      result = service.append_spreadsheet_value(SPREADSHEET_ID,
-                                                RANGE,
-                                                value_range,
-                                                value_input_option: "USER_ENTERED")
+      service.append_spreadsheet_value( SPREADSHEET_ID,
+                                        RANGE,
+                                        Google::Apis::SheetsV4::ValueRange.new(values: [job.values]),
+                                        value_input_option: "USER_ENTERED")
     else
       puts 'poster doesnt exist'
     end

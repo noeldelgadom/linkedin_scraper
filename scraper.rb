@@ -12,7 +12,7 @@ OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
 APPLICATION_NAME = 'Google Sheets API Ruby Quickstart'.freeze
 CREDENTIALS_PATH = 'credentials.json'.freeze
 TOKEN_PATH = 'token.yaml'.freeze
-SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS_READONLY
+SCOPE = Google::Apis::SheetsV4::AUTH_SPREADSHEETS
 
 def login(browser)
   url = "https://www.linkedin.com"
@@ -181,16 +181,25 @@ def scraper
       :contact_email => ""
     }]
 
+  google_array = []
+  jobs_with_industries_and_emails.each {|job| google_array << job.values }
+
   # Google Spreadsheet part
   service = Google::Apis::SheetsV4::SheetsService.new
   service.client_options.application_name = APPLICATION_NAME
   service.authorization = authorize
 
-  spreadsheet_id = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
-  range = 'Class Data!A2:E'
-  response = service.get_spreadsheet_values(spreadsheet_id, range)
-  puts 'Name, Major:'
-  puts 'No data found.' if response.values.empty?
+  spreadsheet_id = '1R3sEe4NENwr9Su7hda7be9BZCGcCDTZ03lurXp0E2hk'
+  range = 'Sheet1!A2:E'
+  # response = service.get_spreadsheet_values(spreadsheet_id, range)
+  # puts 'Name, Major:'
+  # puts 'No data found.' if response.values.empty?
+
+  value_range = Google::Apis::SheetsV4::ValueRange.new(values: google_array)
+  result = service.append_spreadsheet_value(spreadsheet_id,
+                                          range,
+                                          value_range,
+                                          value_input_option: "USER_ENTERED")
   
   byebug
   

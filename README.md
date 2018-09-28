@@ -13,7 +13,7 @@ The information gathered includes job title, company and job poster.
 
 ## Google Sheets
 
-Accesing the Google Spreadsheet requires my permission.
+Accessing the Google Spreadsheet requires my permission.
 
 ## Other
 

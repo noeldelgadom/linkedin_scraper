@@ -29,9 +29,9 @@ def extract_jobs(browser_one, browser_two, service)
           job[:company_url]       = browser_one.a(class: 'jobs-details-top-card__company-url').href
 
           browser_two.goto(job[:company_url])
-          sleep(0.25)
+          sleep(0.4)
           job[:company_url]       = browser_two.url   # This line is needed for companies that have non-ID URLs
-          job[:company_industry] = browser_two.span(class: 'company-industries').inner_text
+          job[:company_industry]  = browser_two.span(class: 'company-industries').inner_text
         else
           byebug
           job[:company_name]      = browser_one.h3(class: 'jobs-details-top-card__company-info').inner_text[12..-1]
